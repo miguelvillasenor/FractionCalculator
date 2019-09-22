@@ -1,4 +1,4 @@
-object OpearationParser {
+object OperationParser {
     private val spacesRegex = "\\s+".toRegex()
     private val allowedOperands = Operand.values().map { it.symbol }
 

@@ -5,7 +5,7 @@ fun main(args: Array<String>) {
         if(line.equals("q")) {
             return
         }
-        val operation = OpearationParser.fromString(line)
+        val operation = OperationParser.fromString(line)
         val result = operation?.let {
             println(operation)
             "The result is\n"
