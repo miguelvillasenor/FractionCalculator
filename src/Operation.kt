@@ -5,10 +5,16 @@ enum class Operand(val symbol: String) {
     MULTIPLY("*")
 }
 
-fun Operand.fromString(operand: String) = Operand.values().firstOrNull { it.symbol == operand }
-
 data class Operation(
     val left: Fraction,
     val right: Fraction,
     val operand: Operand
-)
+) {
+    fun performOperation(): String = when (operand) {
+        Operand.ADD -> (left + right).toString()
+        Operand.SUBTRACT -> (left - right).toString()
+        Operand.DIVIDE -> (left / right).toString()
+        Operand.MULTIPLY -> (left * right).toString()
+    }
+
+}

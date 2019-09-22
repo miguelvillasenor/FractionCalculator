@@ -2,6 +2,9 @@ object OperationParser {
     private val spacesRegex = "\\s+".toRegex()
     private val allowedOperands = Operand.values().map { it.symbol }
 
+    /**
+     * Parses the user input into an Operation object, in case that the input of the user is invalid, we will return null
+     */
     fun fromString(string: String?): Operation? {
         val values = string?.replace(spacesRegex, " ")?.split(" ")
         if (values == null || values.size != 3 || values[1] !in allowedOperands) {
@@ -30,14 +33,18 @@ object OperationParser {
     }
 
 
-    private fun getFraction(string: String): Pair<Int, Int> = when {
-        string.contains("_") && string.contains("/") -> {
-            string.split("_")[1].let {
-                val segments = it.split("/")
-                segments[0].toInt() to segments[1].toInt()
-            }
+    private fun getFraction(string: String): Pair<Int, Int> {
+        val fractionSegment = if (string.contains("_")) {
+            string.split("_")[1]
+        } else {
+            string
         }
-        else -> 0 to 0
+        return if (fractionSegment.contains("/")) {
+            val segments = fractionSegment.split("/")
+            segments[0].toInt() to segments[1].toInt()
+        } else {
+            0 to 0
+        }
     }
 
     private fun String.toOperand() = Operand.values().firstOrNull { it.symbol == this }

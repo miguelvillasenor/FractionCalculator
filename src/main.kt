@@ -7,11 +7,9 @@ fun main(args: Array<String>) {
         }
         val operation = OperationParser.fromString(line)
         val result = operation?.let {
-            println(operation)
-            "The result is\n"
+            val resultFraction = it.performOperation()
+            "The result is: $resultFraction\n"
         } ?: "Invalid fraction\n"
-
-
         println(result)
     }
 }
