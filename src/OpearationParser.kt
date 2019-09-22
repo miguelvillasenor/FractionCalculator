@@ -1,0 +1,44 @@
+object OpearationParser {
+    private val spacesRegex = "\\s+".toRegex()
+    private val allowedOperands = Operand.values().map { it.symbol }
+
+    fun fromString(string: String?): Operation? {
+        val values = string?.replace(spacesRegex, " ")?.split(" ")
+        if (values == null || values.size != 3 || values[1] !in allowedOperands) {
+            return null
+        }
+        return try {
+            val left = parseFraction(values[0])
+            val right = parseFraction(values[2])
+            Operation(left, right, values[1].toOperand()!!)
+        } catch (exception: java.lang.NumberFormatException) {
+            null
+        }
+    }
+
+    @Throws(NumberFormatException::class)
+    private fun parseFraction(string: String): Fraction {
+        val whole = getWhole(string)
+        val (numerator, denominator) = getFraction(string)
+        return Fraction(whole, numerator, denominator)
+    }
+
+    private fun getWhole(string: String): Int = when {
+        string.contains("_") -> string.split("_").first().toInt()
+        !string.contains("/") -> string.toInt()
+        else -> 0
+    }
+
+
+    private fun getFraction(string: String): Pair<Int, Int> = when {
+        string.contains("_") && string.contains("/") -> {
+            string.split("_")[1].let {
+                val segments = it.split("/")
+                segments[0].toInt() to segments[1].toInt()
+            }
+        }
+        else -> 0 to 0
+    }
+
+    private fun String.toOperand() = Operand.values().firstOrNull { it.symbol == this }
+}
