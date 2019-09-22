@@ -66,7 +66,8 @@ data class Fraction(
         val simplifiedFraction = first / gdc to second / gdc
         val whole = simplifiedFraction.first / simplifiedFraction.second
         val numerator = simplifiedFraction.first % simplifiedFraction.second
-        return Fraction(whole, numerator, simplifiedFraction.second)
+        val absNumerator = if(whole < 0 && numerator < 0) numerator.absoluteValue else numerator
+        return Fraction(whole, absNumerator, simplifiedFraction.second)
     }
 
     /**

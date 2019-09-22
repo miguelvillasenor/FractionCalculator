@@ -1,4 +1,4 @@
-fun main(args: Array<String>) {
+fun main() {
     while (true) {
         println("Enter a Fraction operation or `q` to quit")
         val line = readLine()?.trim()
